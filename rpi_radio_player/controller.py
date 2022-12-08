@@ -3,6 +3,11 @@ from pigpio_encoder.rotary import Rotary
 
 class RadioController():
     def __init__(self, model, view, input: Rotary, player: MPDClient):
+        if not isinstance(input, Rotary):
+            raise TypeError("Input should be of type: Rotary")
+        if not isinstance(player, MPDClient):
+            raise TypeError("player should be of type: MPDClient")
+
         self._model = model
         self._view = view
         self._input = input
