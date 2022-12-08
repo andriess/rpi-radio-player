@@ -8,7 +8,8 @@ class RadioController():
         self._input = input
         self._player = player
 
-        self._initPlayer()
+        # Why am I doing the init here. Makes more sense to do this as an app start action.
+        #self._initPlayer()
 
         input.setup_rotary(
             up_callback=self._up_callback,
