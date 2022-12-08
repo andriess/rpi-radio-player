@@ -10,10 +10,10 @@ from unittest import mock
 class BasicTestSuite(unittest.TestCase):
     """Basic test cases."""
 
-    @mock.patch('rpi_radio_player.models.StationModel')
-    @mock.patch('rpi_radio_player.views.StationListView')
-    @mock.patch('mpd.MPDClient')
-    @mock.patch('pigpio_encoder.rotary.Rotary')
+    @mock.patch('__main__.StationModel')
+    @mock.patch('__main__.StationListView')
+    @mock.patch('__main__.MPDClient')
+    @mock.patch('__main__.Rotary')
     def test_passes_when_controller_created_with_correct_types(self, mock_model, mock_view, mock_input, mock_player):
         rpi_radio_player.controller.RadioController(mock_model, mock_view, mock_input, mock_player)
 
