@@ -12,7 +12,7 @@ class BasicTestSuite(unittest.TestCase):
 
     @mock.patch('rpi_radio_player.models.StationModel')
     @mock.patch('rpi_radio_player.views.StationListView')
-    def test_passes_when_controller_created_with_correct_types(self, mock_model, mock_view, mock_input, mock_player):
+    def test_passes_when_controller_created_with_correct_types(self, mock_model, mock_view):
         rpi_radio_player.controller.RadioController(mock_model, mock_view)
 
     def test_fails_when_input_is_not_Rotary_type(self):
