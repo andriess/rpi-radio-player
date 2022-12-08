@@ -5,7 +5,7 @@ from pigpio_encoder.rotary import Rotary
 from mpd import MPDClient
 
 import unittest
-import mock
+from unittest import mock
 
 class BasicTestSuite(unittest.TestCase):
     """Basic test cases."""
