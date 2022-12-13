@@ -1,0 +1,19 @@
+{
+    "stations": [
+        {
+            "name": "RTE Gold",
+            "url": "https://liveaudio.rte.ie/hls-radio/gold/chunk.m3u8",
+            "image": "rte_gold_250_250.jpg"
+        },
+        {
+            "name": "Q102",
+            "url": "https://wg.cdn.tibus.net/q102MP3128",
+            "image": "Q102_512_512.png"
+        },
+        {
+            "name": "Sunshine 108.6",
+            "url": "https://wg.cdn.tibus.net/q102MP3128",
+            "image": "sunshine_512_512.png"
+        }
+    ]
+}

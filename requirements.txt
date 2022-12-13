@@ -7,7 +7,7 @@ adafruit-circuitpython-rgb-display==3.10.19
 adafruit-circuitpython-typing==1.8.3
 Adafruit-PlatformDetect==3.37.0
 Adafruit-PureIO==1.1.9
-board==1.0
+Pillow==9.3.0
 pigpio==1.78
 pigpio-encoder==0.2.4
 pyftdi==0.54.0
