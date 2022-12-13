@@ -10,8 +10,8 @@ class ProcessImageComponent():
 
     def process_image(self, image_name: str) -> Image:
         image_file = os.path.join(self._folder, image_name)
-        print(image_file)
         image_obj = Image.open(image_file)
+
         processed_image = ImageOps.pad(
             image_obj.convert("RGB"),
             (self._width, self._height),
