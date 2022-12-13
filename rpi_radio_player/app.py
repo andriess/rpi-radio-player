@@ -30,7 +30,7 @@ def run():
     my_rotary = Rotary(clk_gpio=17, dt_gpio=18, sw_gpio=27)
 
     stationDao = JsonDao("resources/radiostations.json")
-    imageProcessingComponent = ProcessImageComponent(240, 240, "resources/")
+    imageProcessingComponent = ProcessImageComponent(240, 240, "resources")
     stationListView = StationListView(display)
     stationModel = StationModel(stationDao, imageProcessingComponent)
 
