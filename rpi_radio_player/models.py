@@ -1,10 +1,11 @@
 from typing import TypeVar
 from .data import Dao
+from .components import ProcessImageComponent
 
 class StationModel(object):
 
     D = TypeVar('D', bound=Dao)
-    def __init__(self, dao: Dao, process_image_component):
+    def __init__(self, dao: Dao, process_image_component: ProcessImageComponent):
         self._dao = dao
         self._process_image_component = process_image_component
         self._current_station = 0
@@ -15,7 +16,7 @@ class StationModel(object):
         self._stations = self._dao.get_all_items()
 
         for station in self._stations:
-            station.processedImage = self._process_image_component(station.image)
+            station.processedImage = self._process_image_component.process_image(station.image)
 
     def next(self) -> any:
         if self._current_station + 1 > len(self._stations) - 1 :
