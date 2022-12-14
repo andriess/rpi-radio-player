@@ -22,7 +22,7 @@ class RadioController():
         self._button_input.setup_switch(sw_short_callback=self._sw_short)
 
     def _sw_short(self) -> None:
-        current_station_pos = self._model.get_current_station_position
+        current_station_pos = self._model.get_current_station_position()
         self._player.play(current_station_pos)
 
     def _up_callback(self, *_) -> None:
