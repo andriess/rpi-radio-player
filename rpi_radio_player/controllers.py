@@ -34,6 +34,6 @@ class RadioController():
         self._view.show(previous_station.processedImage)
 
     def _init_player(self) -> None:
-        stations = self._model.get_all_station_urls()
-        for station in stations:
-            self._player.add(station.url)
+        stations_urls = self._model.get_all_station_urls()
+        for url in stations_urls:
+            self._player.add(url)
