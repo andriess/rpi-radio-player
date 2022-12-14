@@ -38,9 +38,12 @@ class RadioController():
         sw = Stopwatch()
         sw.start()
         next_station = self._model.next()
+        print(f"Load next station took: {str(sw)}")
+
+        sw.restart()
         self._view.show(next_station.processedImage)
         sw.stop()
-        print(f"Click took: {str(sw)}")
+        print(f"Display update took: {str(sw)}")
 
     def _down_callback(self, *_) -> None:
         sw = Stopwatch()
