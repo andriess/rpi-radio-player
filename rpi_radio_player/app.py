@@ -41,4 +41,9 @@ def run():
 
     while True:
         # just wait and wait.
-        time.sleep(0.1)
+        time.sleep(2)
+
+        # I guess pinging the client will keep the socket connection open. Otherwise maybe
+        # implement some kind of re-connect try/catch logic.
+        client.ping()
+
