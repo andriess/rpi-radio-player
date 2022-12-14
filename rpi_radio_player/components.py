@@ -20,5 +20,5 @@ class ProcessImageComponent():
             centering=(0.5, 0.5),
         )
 
-        print("Processed image: {image_name}")
+        print(f"Processed image: {image_name}")
         return processed_image
