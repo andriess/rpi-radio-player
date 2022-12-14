@@ -20,6 +20,7 @@ class RadioController():
             down_callback=self._down_callback,
             )
         self._button_input.setup_switch(sw_short_callback=self._sw_short)
+        print("Initialized the rotary input.")
 
     def _sw_short(self) -> None:
         current_station_pos = self._model.get_current_station_position()
@@ -37,3 +38,4 @@ class RadioController():
         stations_urls = self._model.get_all_station_urls()
         for url in stations_urls:
             self._player.add(url)
+        print("Initialized the mpd player.")

@@ -18,6 +18,8 @@ class StationModel(object):
         for station in self._stations:
             station.processedImage = self._process_image_component.process_image(station.image)
 
+        print("Initialized the station model.")
+
     def next(self) -> any:
         if self._current_station + 1 > len(self._stations) - 1 :
             self._current_station = 0
