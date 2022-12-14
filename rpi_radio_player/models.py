@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import TypeVar, List
 from .data import Dao
 from .components import ProcessImageComponent
 
@@ -37,5 +37,5 @@ class StationModel(object):
     def get_current_station_position(self) -> int:
         return self._current_station
 
-    def get_all_station_urls(self) -> int:
+    def get_all_station_urls(self) -> List[str]:
         return [s.url for s in self._stations]
