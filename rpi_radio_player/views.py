@@ -1,4 +1,6 @@
 from adafruit_rgb_display.rgb import DisplaySPI
+from adafruit_rgb_display import color565
+
 from PIL import Image
 
 class StationListView():
