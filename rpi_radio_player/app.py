@@ -41,4 +41,4 @@ def run():
 
     while True:
         # just wait and wait.
-        time.sleep(10)
+        time.sleep(0.1)
