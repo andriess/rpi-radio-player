@@ -14,6 +14,11 @@
             "name": "Sunshine 108.6",
             "url": "https://wg.cdn.tibus.net/q102MP3128",
             "image": "sunshine_512_512.png"
+        },
+        {
+            "name": "Radio 2",
+            "url": "https://nl-ams-p26-am3.cdn.streamgate.nl/#TOKEN#/live/npo/u/npo/nodrm/dash_unencrypted/npo-radio-2/0/0/0/npo-radio-2.isml/stream.mpd",
+            "image": "rte_gold_250_250.jpg"
         }
     ]
 }
