@@ -11,8 +11,14 @@ class RadioController():
         self._button_input = button_input
         self._player = player
 
+        # Start listining to button events and assign controller callbacks.
         self._init_button_input()
+
+        # Add the radiostations to the mpd player.
         self._init_player()
+
+        # Display the image of the currently selected (0) station on boot.
+        self._init_view()
 
     def _init_button_input(self) -> None:
         self._button_input.setup_rotary(
@@ -30,7 +36,6 @@ class RadioController():
         next_station = self._model.next()
         self._view.show(next_station.processedImage)
 
-
     def _down_callback(self, *_) -> None:
         previous_station = self._model.previous()
         self._view.show(previous_station.processedImage)
@@ -40,3 +45,6 @@ class RadioController():
         for url in stations_urls:
             self._player.add(url)
         print("Initialized the mpd player.")
+
+    def _init_view(self):
+        self._view.show()
