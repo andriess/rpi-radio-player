@@ -1,7 +1,7 @@
 from mpd import MPDClient
 from pigpio_encoder.rotary import Rotary
 
-from rpi_radio_player.models import StationModel
+from rpi_radio_player.models import StationModel, StationNotFoundException
 from rpi_radio_player.views import StationListView
 
 class RadioController():
@@ -47,4 +47,9 @@ class RadioController():
         print("Initialized the mpd player.")
 
     def _init_view(self):
-        self._view.show()
+        try:
+            current_station = self._model.get_current_station
+            self._view.show(current_station.image)
+        except StationNotFoundException:
+            # maybe display a qr, linking to github with some setup instructions.
+            print("No stations configured.")

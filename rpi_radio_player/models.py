@@ -44,4 +44,16 @@ class StationModel(object):
         return self._current_station
 
     def get_all_station_urls(self) -> List[str]:
+        if(self._current_station is None):
+            raise StationNotFoundException
+
         return [s.url for s in self._stations]
+
+    def get_current_station(self) -> any:
+        if(self._current_station is None):
+            raise StationNotFoundException
+
+        return self._stations[self._current_station]
+
+class StationNotFoundException(Exception):
+    "Raised when a station cannot be found."
