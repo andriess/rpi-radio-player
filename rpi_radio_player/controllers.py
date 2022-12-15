@@ -27,31 +27,17 @@ class RadioController():
         print("Initialized the rotary input.")
 
     def _sw_short(self) -> None:
-        sw = Stopwatch()
-        sw.start()
         current_station_pos = self._model.get_current_station_position()
         self._player.play(current_station_pos)
-        sw.stop()
-        print(f"Click took: {str(sw)}")
 
     def _up_callback(self, *_) -> None:
-        sw = Stopwatch()
-        sw.start()
         next_station = self._model.next()
-        print(f"Load next station took: {str(sw)}")
-
-        sw.restart()
         self._view.show(next_station.processedImage)
-        sw.stop()
-        print(f"Display update took: {str(sw)}")
+
 
     def _down_callback(self, *_) -> None:
-        sw = Stopwatch()
-        sw.start()
         previous_station = self._model.previous()
         self._view.show(previous_station.processedImage)
-        sw.stop()
-        print(f"Click took: {str(sw)}")
 
     def _init_player(self) -> None:
         stations_urls = self._model.get_all_station_urls()

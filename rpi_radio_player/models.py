@@ -8,7 +8,8 @@ class StationModel(object):
     def __init__(self, dao: Dao, process_image_component: ProcessImageComponent):
         self._dao = dao
         self._process_image_component = process_image_component
-        self._current_station = 0
+        self._current_station = None
+        self._stations = []
 
         self._initialize_stations()
 
@@ -17,6 +18,10 @@ class StationModel(object):
 
         for station in self._stations:
             station.processedImage = self._process_image_component.process_image(station.image)
+
+        print(self._stations)
+        if(len(self._stations) > 0):
+            self._current_station = 0
 
         print("Initialized the station model.")
 

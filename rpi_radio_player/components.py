@@ -22,3 +22,7 @@ class ProcessImageComponent():
 
         print(f"Processed image: {image_name}")
         return processed_image
+
+class MockProcessImageComponent():
+    def process_image(self):
+        pass
