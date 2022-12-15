@@ -1,15 +1,11 @@
-import time
-
 from mpd import MPDClient
 from pigpio_encoder.rotary import Rotary
-from stopwatch import Stopwatch
 
 from rpi_radio_player.models import StationModel
 from rpi_radio_player.views import StationListView
 
 class RadioController():
-    def __init__(self, model: StationModel, view: StationListView, button_input: Rotary,
-            player: MPDClient) -> None:
+    def __init__(self, model: StationModel, view: StationListView, button_input: Rotary, player: MPDClient) -> None:
         self._model = model
         self._view = view
         self._button_input = button_input

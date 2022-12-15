@@ -1,6 +1,6 @@
 import unittest
 from types import SimpleNamespace
-from unittest.mock import Mock, create_autospec
+from unittest.mock import create_autospec
 
 from rpi_radio_player.models import StationModel
 from rpi_radio_player.components import ProcessImageComponent
