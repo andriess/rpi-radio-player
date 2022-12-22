@@ -18,8 +18,9 @@ class StationModel(object):
 
     def _initialize_stations(self) -> None:
         self._stations = self._dao.get_all_items()
+        self._stations.sort(key=lambda x: x.pos)
 
-        for station in self._stations:
+        for station in (self._stations):
             station.processedImage = self._process_image_component.process_image(station.image)
 
         if len(self._stations) > 0:

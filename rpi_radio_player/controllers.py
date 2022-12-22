@@ -30,7 +30,7 @@ class RadioController():
 
     def _sw_short(self) -> None:
         self._model.select_station()
-        self._player.play(self._model.get_currently_playing_station())
+        self._player.play(self._model.get_currently_playing_station().pos)
 
     def _up_callback(self, *_) -> None:
         self._model.next()

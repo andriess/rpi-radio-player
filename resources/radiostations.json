@@ -1,21 +1,25 @@
 {
     "stations": [
         {
+            "pos": 0,
             "name": "RTE Gold",
             "url": "https://liveaudio.rte.ie/hls-radio/gold/chunk.m3u8",
             "image": "rte_gold_250_250.jpg"
         },
         {
+            "pos": 1,
             "name": "Q102",
             "url": "https://wg.cdn.tibus.net/q102MP3128",
             "image": "Q102_512_512.png"
         },
         {
+            "pos": 2,
             "name": "Sunshine 108.6",
             "url": "https://live-bauerie.sharp-stream.com/SUN",
             "image": "sunshine_512_512.png"
         },
         {
+            "pos": 3,
             "name": "Radio 2",
             "url": "https://icecast.omroep.nl/radio2-bb-aac",
             "image": "npo-radio-2_800_800.jpg"
