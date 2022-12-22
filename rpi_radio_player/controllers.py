@@ -30,6 +30,7 @@ class RadioController():
         print("Initialized the rotary input.")
 
     def _sw_short(self) -> None:
+        print("short press")
         if not self._model.is_backlight_on():
             self._switch_blacklight()
             self._update_display_to_current_station()
@@ -39,6 +40,7 @@ class RadioController():
         self._player.play(self._model.get_currently_playing_station().pos)
 
     def _sw_long(self) -> None:
+        print("long press")
         self._player.stop()
         self._switch_blacklight()
 
