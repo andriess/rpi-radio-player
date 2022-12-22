@@ -13,6 +13,7 @@ class StationModel(object):
         self._currently_playing = None
         self._last_update = None
         self._stations = []
+        self._backlight_on = True
 
         self._initialize_stations()
 
@@ -80,6 +81,14 @@ class StationModel(object):
             return True
 
         return False
+
+    def is_backlight_on(self) -> bool:
+        return self._backlight_on
+
+    def switch_blacklight(self) -> None:
+        self._backlight_on = not self._backlight_on
+        self._currently_playing = None
+
 
 class StationNotFoundException(Exception):
     "Raised when a station cannot be found."
