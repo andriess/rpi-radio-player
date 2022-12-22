@@ -44,7 +44,7 @@ def run():
         time.sleep(2)
 
         # For now this just checks if we should return to the currently playing picture. This is
-        # hardcoded at 10s in the model.
+        # interval is hardcoded in the model.
         radio_controller.refresh_display()
 
         # I guess pinging the client will keep the socket connection open. Otherwise maybe
