@@ -66,6 +66,10 @@ class RadioController():
         current_station = self._model.get_currently_displayed_station()
         self._view.show(current_station.processedImage)
 
+    def _switch_blacklight(self) -> None:
+        self._model.switch_blacklight()
+        self._view.switch_backlight(self._model.is_backlight_on())
+
     def _init_view(self):
         try:
             self._update_display_to_current_station()

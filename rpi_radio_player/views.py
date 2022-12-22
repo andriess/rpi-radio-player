@@ -12,3 +12,10 @@ class StationListView():
 
     def show(self, image: Image) -> None:
         self._display.show_image(image)
+
+    def switch_backlight(self, backlight_on: bool) -> None:
+        if backlight_on:
+            self._display.backlight_on()
+        else:
+            self._display.backlight_off()
+
