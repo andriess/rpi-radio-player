@@ -50,7 +50,7 @@ class RadioController():
 
     def _init_view(self):
         try:
-            current_station = self._model.get_current_station()
+            current_station = self._model.get_currently_displayed_station()
             self._view.show(current_station.processedImage)
         except StationNotFoundException:
             # maybe display a qr, linking to github with some setup instructions.
