@@ -36,12 +36,16 @@ def run():
     station_list_view = StationListView(display)
     station_model = StationModel(station_dao, image_processing_component)
 
-    # passing the rotary and mpd client seems wrong.
+    # Passing the rotary and mpd client seems wrong.
     radio_controller = RadioController(station_model, station_list_view, my_rotary, client)
 
     while True:
-        # just wait and wait.
+        # Just wait and wait.
         time.sleep(2)
+
+        # For now this just checks if we should return to the currently playing picture. This is
+        # hardcoded at 10s in the model.
+        radio_controller.refresh_display()
 
         # I guess pinging the client will keep the socket connection open. Otherwise maybe
         # implement some kind of re-connect try/catch logic.

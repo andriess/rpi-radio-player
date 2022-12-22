@@ -1,6 +1,7 @@
 import unittest
 from types import SimpleNamespace
 from unittest.mock import create_autospec
+from unittest import mock
 
 from rpi_radio_player.models import StationModel, StationNotFoundException
 from rpi_radio_player.components import ProcessImageComponent
@@ -63,32 +64,61 @@ class StationModelTests_With_Stations_Configured(unittest.TestCase):
     def test_when_get_all_station_urls_returns_urls(self):
         self.assertEqual(self.sut.get_all_station_urls(), [s.url for s in self.station_list])
 
-    def test_when_next_is_called_once_returns_station_at_postion_1(self):
+    @mock.patch('time.time', return_value=12345)
+    def test_when_next_is_called_should_update_position_and_display_updated_time(self, mock_time):
         self.sut.next()
 
         self.assertEqual(self.sut._currently_displayed_station, 1)
+        self.assertEqual(self.sut._last_update, 12345)
 
-    def test_when_next_is_called_at_last_element_should_be_set_to_first_element_position(self):
+    @mock.patch('time.time', side_effect=[10, 20, 30])
+    def test_when_next_is_called_at_last_element_should_be_set_to_first_element_position(self, mock_time):
         self.sut.next() # returns position 1
+
+        self.assertEqual(self.sut._last_update, 10)
+        self.assertEqual(self.sut._currently_displayed_station, 1)
+
         self.sut.next() # returns postion 2 and last element in the station list.
+
+        self.assertEqual(self.sut._last_update, 20)
+        self.assertEqual(self.sut._currently_displayed_station, 2)
 
         # on the third call we expect the method to return the first elemement in the list.
         self.sut.next()
         self.assertEqual(self.sut._currently_displayed_station, 0)
+        self.assertEqual(self.sut._last_update, 30)
 
-    def test_when_previous_is_called_at_first_element_should_be_set_to_last_element_postion(self):
+    @mock.patch('time.time', return_value=12345)
+    def test_previous_when_at_first_element_should_be_set_to_last_element_postion(self, mock_time):
         self.sut.previous()
 
         self.assertEqual(self.sut._currently_displayed_station, 2)
+        self.assertEqual(self.sut._last_update, 12345)
+        mock_time.assert_called_once()
 
-    def test_when_select_station_currently_playing_should_be_0(self):
+    def test_select_station_when_pos_is_0_currently_playing_should_be_0(self):
         self.sut.select_station()
 
         self.assertEqual(self.sut._currently_playing, 0)
+        self.assertEqual(self.sut._last_update, None)
 
-    def test_when_get_currently_playing_station_returns_selected_station(self):
+    def test_get_currently_playing_station_returns_selected_station(self):
         self.sut.select_station()
         self.assertEqual(self.sut.get_currently_playing_station(), self.station_list[0])
+
+    @mock.patch('time.time', return_value=20)
+    def test_should_refresh_when_last_update_is_none_should_return_false(self, mock_time):
+        self.assertFalse(self.sut.should_refresh())
+
+    @mock.patch('time.time', return_value=20)
+    def test_should_refresh_when_last_update_is_10_seconds_ago_should_return_true(self, mock_time):
+        self.sut._last_update = 10
+        self.assertTrue(self.sut.should_refresh())
+
+    @mock.patch('time.time', return_value=20)
+    def test_should_refresh_when_last_update_is_less_then_10_seconds_ago_should_return_false(self, mock_time):
+        self.sut._last_update = 11
+        self.assertFalse(self.sut.should_refresh())
 
 def create_station_list(amount) -> list:
     station_list = []

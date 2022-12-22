@@ -48,10 +48,17 @@ class RadioController():
             self._player.add(url)
         print("Initialized the mpd player.")
 
+    def refresh_display(self) -> None:
+        if(self._model.refresh()):
+            self._update_display_to_current_station()
+
+    def _update_display_to_current_station(self):
+        current_station = self._model.get_currently_displayed_station()
+        self._view.show(current_station.processedImage)
+
     def _init_view(self):
         try:
-            current_station = self._model.get_currently_displayed_station()
-            self._view.show(current_station.processedImage)
+            self._update_display_to_current_station()
         except StationNotFoundException:
             # maybe display a qr, linking to github with some setup instructions.
             print("No stations configured.")

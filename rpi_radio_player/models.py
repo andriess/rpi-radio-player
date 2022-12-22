@@ -11,7 +11,7 @@ class StationModel(object):
         self._process_image_component = process_image_component
         self._currently_displayed_station = None
         self._currently_playing = None
-        self._station_selected_at = None
+        self._last_update = None
         self._stations = []
 
         self._initialize_stations()
@@ -37,6 +37,8 @@ class StationModel(object):
         else:
             self._currently_displayed_station = (self._currently_displayed_station + 1)
 
+        self._last_update = time.time()
+
     def previous(self) -> None:
         if self._currently_displayed_station is None:
             return None
@@ -45,6 +47,8 @@ class StationModel(object):
             self._currently_displayed_station = len(self._stations) - 1
         else:
             self._currently_displayed_station = (self._currently_displayed_station - 1)
+
+        self._last_update = time.time()
 
     def get_current_station_position(self) -> int:
         return self._currently_displayed_station
@@ -66,6 +70,15 @@ class StationModel(object):
 
     def select_station(self) -> None:
         self._currently_playing = self._currently_displayed_station
+        self._last_update = None
+
+    def should_refresh(self) -> bool:
+        # reset the displayed station back to currently playing after 10 seconds.
+        if self._last_update is not None and (time.time() - self._last_update) >= 10:
+            self._currently_displayed_station = self._currently_playing
+            return True
+
+        return False
 
 class StationNotFoundException(Exception):
     "Raised when a station cannot be found."
