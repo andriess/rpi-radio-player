@@ -31,7 +31,7 @@ class RadioController():
 
     def _sw_short(self) -> None:
         if not self._model.is_backlight_on():
-            self._model.switch_blacklight()
+            self._switch_blacklight()
             self._update_display_to_current_station()
             return
 
@@ -40,7 +40,7 @@ class RadioController():
 
     def _sw_long(self) -> None:
         self._player.stop()
-        self._model.switch_blacklight()
+        self._switch_blacklight()
 
     def _up_callback(self, *_) -> None:
         self._model.next()
