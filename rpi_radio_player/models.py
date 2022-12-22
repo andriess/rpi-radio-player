@@ -74,7 +74,8 @@ class StationModel(object):
 
     def should_refresh(self) -> bool:
         # reset the displayed station back to currently playing after 10 seconds.
-        if self._last_update is not None and (time.time() - self._last_update) >= 10:
+        if (self._currently_playing is not None and self._last_update is not None and
+                (time.time() - self._last_update) >= 10):
             self._currently_displayed_station = self._currently_playing
             return True
 

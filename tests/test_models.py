@@ -108,15 +108,23 @@ class StationModelTests_With_Stations_Configured(unittest.TestCase):
 
     @mock.patch('time.time', return_value=20)
     def test_should_refresh_when_last_update_is_none_should_return_false(self, mock_time):
+        self.sut._currently_playing = 0
         self.assertFalse(self.sut.should_refresh())
 
     @mock.patch('time.time', return_value=20)
     def test_should_refresh_when_last_update_is_10_seconds_ago_should_return_true(self, mock_time):
+        self.sut._currently_playing = 0
         self.sut._last_update = 10
         self.assertTrue(self.sut.should_refresh())
 
     @mock.patch('time.time', return_value=20)
     def test_should_refresh_when_last_update_is_less_then_10_seconds_ago_should_return_false(self, mock_time):
+        self.sut._currently_playing = 0
+        self.sut._last_update = 11
+        self.assertFalse(self.sut.should_refresh())
+
+    @mock.patch('time.time', return_value=20)
+    def test_should_refresh_when_last_update_is_10_seconds_ago_and_nothing_plays_should_return_false(self, mock_time):
         self.sut._last_update = 11
         self.assertFalse(self.sut.should_refresh())
 
