@@ -78,6 +78,7 @@ class StationModel(object):
         if (self._currently_playing is not None and
                 self._last_update is not None and (time.time() - self._last_update) >= 10):
             self._currently_displayed_station = self._currently_playing
+            self._last_update = None
             return True
 
         return False
