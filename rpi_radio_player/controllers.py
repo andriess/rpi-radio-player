@@ -5,7 +5,8 @@ from rpi_radio_player.models import StationModel, StationNotFoundException
 from rpi_radio_player.views import StationListView
 
 class RadioController():
-    def __init__(self, model: StationModel, view: StationListView, button_input: Rotary, player: MPDClient) -> None:
+    def __init__(self, model: StationModel, view: StationListView, button_input: Rotary,
+            player: MPDClient) -> None:
         self._model = model
         self._view = view
         self._button_input = button_input
