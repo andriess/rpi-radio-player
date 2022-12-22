@@ -34,10 +34,18 @@ class RadioController():
 
     def _up_callback(self, *_) -> None:
         next_station = self._model.next()
+
+        if next_station is None:
+            return
+
         self._view.show(next_station.processedImage)
 
     def _down_callback(self, *_) -> None:
         previous_station = self._model.previous()
+
+        if previous_station is None:
+            return
+
         self._view.show(previous_station.processedImage)
 
     def _init_player(self) -> None:

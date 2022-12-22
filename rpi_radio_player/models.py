@@ -25,6 +25,9 @@ class StationModel(object):
         print("Initialized the station model.")
 
     def next(self) -> any:
+        if self._current_station is None:
+            return None
+
         if self._current_station + 1 > len(self._stations) - 1 :
             self._current_station = 0
         else:
@@ -33,6 +36,9 @@ class StationModel(object):
         return self._stations[self._current_station]
 
     def previous(self) -> any:
+        if self._current_station is None:
+            return None
+
         if self._current_station - 1 < 0:
             self._current_station = len(self._stations) - 1
         else:

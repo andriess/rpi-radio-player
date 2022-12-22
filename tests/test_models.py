@@ -6,78 +6,80 @@ from rpi_radio_player.models import StationModel, StationNotFoundException
 from rpi_radio_player.components import ProcessImageComponent
 from rpi_radio_player.data import JsonDao
 
-class BasicTestSuite(unittest.TestCase):
-    """Basic test cases."""
+class StationModelTests_Without_Stations_Configured(unittest.TestCase):
+    """StationModel tests where the class is instantiated with no stations."""
 
-    # I still feel like there must be a way to group these tests under a class and run a setup for
-    # them. So there is no mock instantiation duplication.
-    def test_when_no_stations_configured_get_current_position_returns_none(self):
-        mock_dao = create_autospec(JsonDao)
-        mock_dao.get_all_items.return_value = []
-        mock_image_processor = create_autospec(ProcessImageComponent)
+    def setUp(self) -> None:
+        self.mock_dao = create_autospec(JsonDao)
+        self.mock_dao.get_all_items.return_value = []
+        self.mock_image_processor = create_autospec(ProcessImageComponent)
 
-        sut = StationModel(mock_dao, mock_image_processor)
+        self.sut = StationModel(self.mock_dao, self.mock_image_processor)
 
-        mock_image_processor.process_image.assert_not_called()
-        self.assertIsNone(sut.get_current_station_position())
+    def test_when_get_current_position_returns_none(self):
+        self.mock_image_processor.process_image.assert_not_called()
+        self.assertIsNone(self.sut.get_current_station_position())
 
-    def test_when_no_stations_configured_get_current_station_raises_exception(self):
-        mock_dao = create_autospec(JsonDao)
-        mock_dao.get_all_items.return_value = []
-        mock_image_processor = create_autospec(ProcessImageComponent)
-
-        sut = StationModel(mock_dao, mock_image_processor)
-
+    def test_when_get_current_station_raises_exception(self):
         with self.assertRaises(StationNotFoundException):
-            sut.get_current_station()
+            self.sut.get_current_station()
 
-    def test_when_no_stations_configured_get_all_station_urls_raises_exception(self):
-        mock_dao = create_autospec(JsonDao)
-        mock_dao.get_all_items.return_value = []
-        mock_image_processor = create_autospec(ProcessImageComponent)
-
-        sut = StationModel(mock_dao, mock_image_processor)
-
+    def test_when_get_all_station_urls_raises_exception(self):
         with self.assertRaises(StationNotFoundException):
-            sut.get_all_station_urls()
+            self.sut.get_all_station_urls()
 
-    def test_when_one_station_configured_get_all_items_returns_one(self):
-        mock_dao = create_autospec(JsonDao)
-        mock_dao.get_all_items.return_value = self._create_station_list(1)
-        mock_image_processor = create_autospec(ProcessImageComponent)
+    def test_when_next_returns_none(self):
+        self.assertEqual(self.sut.next(), None)
 
-        sut = StationModel(mock_dao, mock_image_processor)
+    def test_when_previous_returns_none(self):
+        self.assertEqual(self.sut.previous(), None)
 
-        self.assertEqual(sut.get_current_station_position(), 0)
+class StationModelTests_With_Stations_Configured(unittest.TestCase):
+    """StationModel tests where the class is instantiated with three stations."""
 
-    def test_when_one_station_configured_get_current_station_returns_station(self):
-        mock_dao = create_autospec(JsonDao)
-        station_return_value = self._create_station_list(1)
-        mock_dao.get_all_items.return_value = station_return_value
-        mock_image_processor = create_autospec(ProcessImageComponent)
+    def setUp(self) -> None:
+        self.mock_dao = create_autospec(JsonDao)
+        self.station_list = create_station_list(3)
+        self.mock_dao.get_all_items.return_value = self.station_list
+        self.mock_image_processor = create_autospec(ProcessImageComponent)
 
-        sut = StationModel(mock_dao, mock_image_processor)
+        self.sut = StationModel(self.mock_dao, self.mock_image_processor)
 
-        self.assertEqual(sut.get_current_station(), station_return_value[0])
+    def test_when_get_current_station_position_returns_zero(self):
+        self.assertEqual(self.sut.get_current_station_position(), 0)
 
-    def test_when_one_station_configured_get_all_station_urls_returns_urls(self):
-        mock_dao = create_autospec(JsonDao)
-        station_return_value = self._create_station_list(1)
-        mock_dao.get_all_items.return_value = station_return_value
-        mock_image_processor = create_autospec(ProcessImageComponent)
+    def test_when_get_current_station_returns_station_at_zero(self):
+        self.assertEqual(self.sut.get_current_station(), self.station_list[0])
 
-        sut = StationModel(mock_dao, mock_image_processor)
+    def test_when_get_all_station_urls_returns_urls(self):
+        self.assertEqual(self.sut.get_all_station_urls(), [s.url for s in self.station_list])
 
-        self.assertEqual(sut.get_all_station_urls(), [station_return_value[0].url])
+    def test_when_next_is_called_once_returns_station_at_postion_1(self):
+        self.assertEqual(self.sut.next(), self.station_list[1])
+        self.assertEqual(self.sut.get_current_station(), self.station_list[1])
+        self.assertEqual(self.sut.get_current_station_position(), 1)
 
+    def test_when_next_is_called_at_last_element_should_return_first(self):
+        self.sut.next() # returns position 1
+        self.sut.next() # returns postion 2 and last element in the station list.
 
-    def _create_station_list(self, amount) -> list:
-        station_list = []
-        for i in range(amount):
-            station_list.append(
-                SimpleNamespace(image=f"image{i}", name=f"radio {i}", url=f"https://radio-{i}.com"))
+        # on the third call we expect the method to return the first elemement in the list.
+        self.assertEqual(self.sut.next(), self.station_list[0])
+        self.assertEqual(self.sut.get_current_station(), self.station_list[0])
+        self.assertEqual(self.sut.get_current_station_position(), 0)
 
-        return station_list
+    def test_when_previous_is_called_at_first_element_returns_last_element(self):
+        self.assertEqual(self.sut.previous(), self.station_list[2])
+        self.assertEqual(self.sut.get_current_station(), self.station_list[2])
+        self.assertEqual(self.sut.get_current_station_position(), 2)
+
+def create_station_list(amount) -> list:
+    station_list = []
+    for i in range(amount):
+        station_list.append(
+            SimpleNamespace(image=f"image{i}", name=f"radio {i}", url=f"https://radio-{i}.com"))
+
+    return station_list
 
 if __name__ == '__main__':
     unittest.main()
