@@ -49,7 +49,7 @@ class RadioController():
         print("Initialized the mpd player.")
 
     def refresh_display(self) -> None:
-        if(self._model.refresh()):
+        if(self._model.should_refresh()):
             self._update_display_to_current_station()
 
     def _update_display_to_current_station(self):
