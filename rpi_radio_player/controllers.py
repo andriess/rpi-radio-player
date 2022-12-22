@@ -26,7 +26,11 @@ class RadioController():
             up_callback=self._up_callback,
             down_callback=self._down_callback,
             )
-        self._button_input.setup_switch(sw_short_callback=self._sw_short, sw_long_callback=self._sw_long)
+        self._button_input.setup_switch(
+            sw_short_callback=self._sw_short,
+            sw_long_callback=self._sw_long,
+            long_press=True
+            )
         print("Initialized the rotary input.")
 
     def _sw_short(self) -> None:
