@@ -31,6 +31,7 @@ class DisplayComponent():
         self._display = ST7789(spi, cs=cs_pin, dc=dc_pin, y_offset=y_offset, baudrate=baudrate)
         self._bl_pin = bl_pin
         self._bl_pin.direction = digitalio.Direction.OUTPUT
+        self._bl_pin.value = True
 
     def show_image(self, image: Image) -> None:
         self._display.image(image)
