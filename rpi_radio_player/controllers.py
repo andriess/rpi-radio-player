@@ -66,6 +66,7 @@ class RadioController():
 
     def refresh_display(self) -> None:
         if(self._model.should_refresh()):
+            print("refresh display")
             self._update_display_to_current_station()
 
     def _update_display_to_current_station(self):
