@@ -29,24 +29,18 @@ class RadioController():
         print("Initialized the rotary input.")
 
     def _sw_short(self) -> None:
-        current_station_pos = self._model.get_current_station_position()
-        self._player.play(current_station_pos)
+        self._model.select_station()
+        self._player.play(self._model.get_currently_playing_station())
 
     def _up_callback(self, *_) -> None:
-        next_station = self._model.next()
+        self._model.next()
 
-        if next_station is None:
-            return
-
-        self._view.show(next_station.processedImage)
+        self._view.show(self._model.get_currently_displayed_station().processedImage)
 
     def _down_callback(self, *_) -> None:
-        previous_station = self._model.previous()
+        self._model.previous()
 
-        if previous_station is None:
-            return
-
-        self._view.show(previous_station.processedImage)
+        self._view.show(self._model.get_currently_displayed_station().processedImage)
 
     def _init_player(self) -> None:
         stations_urls = self._model.get_all_station_urls()
