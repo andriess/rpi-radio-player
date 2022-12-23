@@ -45,8 +45,8 @@ class RadioController():
 
     def _sw_long(self) -> None:
         print("long press")
-        self._player.stop()
         self._switch_blacklight()
+        self._player.stop()
 
     def _up_callback(self, *_) -> None:
         self._model.next()
