@@ -28,7 +28,7 @@ def run():
     spi = board.SPI()
 
     # Create the ST7789 display:
-    display_component = DisplayComponent(spi, cs_pin, dc_pin, bl_pin, 80, 10000000)
+    display_component = DisplayComponent(spi, cs_pin, dc_pin, bl_pin, 80, 10000000, 180)
     my_rotary = Rotary(clk_gpio=17, dt_gpio=18, sw_gpio=27)
 
     station_dao = JsonDao("resources/radiostations.json")

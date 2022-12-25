@@ -27,8 +27,8 @@ class ProcessImageComponent():
         return processed_image
 
 class DisplayComponent():
-    def __init__(self, spi, cs_pin, dc_pin, bl_pin, y_offset, baudrate) -> None:
-        self._display = ST7789(spi, cs=cs_pin, dc=dc_pin, y_offset=y_offset, baudrate=baudrate)
+    def __init__(self, spi, cs_pin, dc_pin, bl_pin, y_offset, baudrate, rotation) -> None:
+        self._display = ST7789(spi, cs=cs_pin, dc=dc_pin, y_offset=y_offset, baudrate=baudrate, rotation=rotation)
         self._bl_pin = bl_pin
         self._bl_pin.direction = digitalio.Direction.OUTPUT
         self._bl_pin.value = True
