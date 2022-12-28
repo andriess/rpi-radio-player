@@ -5,13 +5,12 @@ import digitalio
 import mpd
 
 from pigpio_encoder.rotary import Rotary
-from adafruit_rgb_display import st7789
 
 from rpi_radio_player.models import StationModel
 from rpi_radio_player.views import StationListView
 from rpi_radio_player.data import JsonDao
 from rpi_radio_player.controllers import RadioController
-from rpi_radio_player.components import ProcessImageComponent
+from rpi_radio_player.components import ProcessImageComponent, DisplayComponent
 
 def run():
     client = mpd.MPDClient()
@@ -23,17 +22,18 @@ def run():
 
     cs_pin = digitalio.DigitalInOut(board.D7)
     dc_pin = digitalio.DigitalInOut(board.D9)
+    bl_pin = digitalio.DigitalInOut(board.D19)
 
     # Setup SPI bus using hardware SPI:
     spi = board.SPI()
 
     # Create the ST7789 display:
-    display = st7789.ST7789(spi, cs=cs_pin, dc=dc_pin, y_offset=80, baudrate=10000000)
+    display_component = DisplayComponent(spi, cs_pin, dc_pin, bl_pin, 80, 10000000, 180)
     my_rotary = Rotary(clk_gpio=17, dt_gpio=18, sw_gpio=27)
 
     station_dao = JsonDao("resources/radiostations.json")
     image_processing_component = ProcessImageComponent(240, 240, "resources")
-    station_list_view = StationListView(display)
+    station_list_view = StationListView(display_component)
     station_model = StationModel(station_dao, image_processing_component)
 
     # Passing the rotary and mpd client seems wrong.
@@ -44,10 +44,9 @@ def run():
         time.sleep(2)
 
         # For now this just checks if we should return to the currently playing picture. This is
-        # hardcoded at 10s in the model.
+        # interval is hardcoded in the model.
         radio_controller.refresh_display()
 
         # I guess pinging the client will keep the socket connection open. Otherwise maybe
         # implement some kind of re-connect try/catch logic.
         client.ping()
-

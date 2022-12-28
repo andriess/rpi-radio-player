@@ -5,7 +5,8 @@ from rpi_radio_player.models import StationModel, StationNotFoundException
 from rpi_radio_player.views import StationListView
 
 class RadioController():
-    def __init__(self, model: StationModel, view: StationListView, button_input: Rotary, player: MPDClient) -> None:
+    def __init__(self, model: StationModel, view: StationListView, button_input: Rotary,
+            player: MPDClient) -> None:
         self._model = model
         self._view = view
         self._button_input = button_input
@@ -25,12 +26,27 @@ class RadioController():
             up_callback=self._up_callback,
             down_callback=self._down_callback,
             )
-        self._button_input.setup_switch(sw_short_callback=self._sw_short)
+        self._button_input.setup_switch(
+            sw_short_callback=self._sw_short,
+            sw_long_callback=self._sw_long,
+            long_press=True
+            )
         print("Initialized the rotary input.")
 
     def _sw_short(self) -> None:
+        print("short press")
+        if not self._model.is_backlight_on():
+            self._switch_blacklight()
+            self._update_display_to_current_station()
+            return
+
         self._model.select_station()
         self._player.play(self._model.get_currently_playing_station().pos)
+
+    def _sw_long(self) -> None:
+        print("long press")
+        self._switch_blacklight()
+        self._player.stop()
 
     def _up_callback(self, *_) -> None:
         self._model.next()
@@ -50,11 +66,16 @@ class RadioController():
 
     def refresh_display(self) -> None:
         if(self._model.should_refresh()):
+            print("refresh display")
             self._update_display_to_current_station()
 
     def _update_display_to_current_station(self):
         current_station = self._model.get_currently_displayed_station()
         self._view.show(current_station.processedImage)
+
+    def _switch_blacklight(self) -> None:
+        self._model.switch_blacklight()
+        self._view.switch_backlight(self._model.is_backlight_on())
 
     def _init_view(self):
         try:

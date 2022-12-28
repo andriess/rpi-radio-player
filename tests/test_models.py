@@ -128,6 +128,20 @@ class StationModelTests_With_Stations_Configured(unittest.TestCase):
         self.sut._last_update = 11
         self.assertFalse(self.sut.should_refresh())
 
+    def test_switch_blacklight_when_true_should_set_backlight_on_to_false(self):
+        self.sut.switch_blacklight()
+
+        self.assertFalse(self.sut._backlight_on)
+        self.assertIsNone(self.sut._currently_playing)
+
+    def test_switch_blacklight_when_false_should_set_backlight_on_to_true(self):
+        self.sut._backlight_on = False
+
+        self.sut.switch_blacklight()
+
+        self.assertTrue(self.sut._backlight_on)
+        self.assertIsNone(self.sut._currently_playing)
+
 def create_station_list(amount) -> list:
     station_list = []
     for i in range(amount):
